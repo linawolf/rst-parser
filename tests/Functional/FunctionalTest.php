@@ -34,7 +34,7 @@ class FunctionalTest extends TestCase
 {
     private const RENDER_DOCUMENT_FILES = ['main-directive'];
     private const SKIP_INDENTER_FILES   = ['code-block-diff'];
-    private const RENDER_ALL            = ['toctree'];
+    private const RENDER_ALL            = ['toctree', 'toctree-titlesonly'];
 
     protected function setUp(): void
     {
@@ -120,11 +120,14 @@ class FunctionalTest extends TestCase
         foreach ($finder as $dir) {
             $rstFilename   = $dir->getPathname() . '/' . $dir->getFilename() . '.rst';
             $indexFilename = $dir->getPathname() . '/index.rst';
-            if (! file_exists($rstFilename) && ! file_exists($indexFilename)) {
+            if (file_exists($rstFilename)) {
+                $rst = file_get_contents($rstFilename);
+            } elseif (file_exists($indexFilename)) {
+                $rst = file_get_contents($indexFilename) ?? '';
+            } else {
                 throw new Exception(sprintf('Could not find functional test file "%s" or "%s"', $rstFilename, $indexFilename));
             }
 
-            $rst      = file_get_contents($rstFilename);
             $basename = $dir->getFilename();
 
             $formats = [Format::HTML, Format::LATEX];
@@ -169,8 +172,11 @@ class FunctionalTest extends TestCase
 
                 $useIndenter = ! in_array($basename, self::SKIP_INDENTER_FILES, true);
 
-                if ($renderMethod === 'renderAll') {
-                    $rst = file_get_contents($indexFilename) ?? '';
+                if (
+                    ($renderMethod === 'renderAll' && ! file_exists($indexFilename))
+                    || ($renderMethod !== 'renderAll' && ! file_exists($rstFilename))
+                ) {
+                    throw new Exception(sprintf('The rendering method "%s" expects file "%s" to exist', $renderMethod, $renderMethod === 'renderAll' ? $indexFilename : $rstFilename));
                 }
 
                 $tests[$basename . '_' . $format] = [$basename, $parser, $renderMethod, $format, $rst, trim($expected), $useIndenter];
