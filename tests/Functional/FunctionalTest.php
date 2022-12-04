@@ -34,7 +34,7 @@ class FunctionalTest extends TestCase
 {
     private const RENDER_DOCUMENT_FILES = ['main-directive'];
     private const SKIP_INDENTER_FILES   = ['code-block-diff'];
-    private const RENDER_ALL            = ['toctree', 'toctree-titlesonly'];
+    private const RENDER_ALL            = ['toctree', 'toctree-titlesonly', 'toctree-twolevels'];
 
     protected function setUp(): void
     {
@@ -73,12 +73,12 @@ class FunctionalTest extends TestCase
             $configuration->setFileExtension(Format::HTML);
             $builder = new Builder();
 
-            $builder->build(__DIR__ . '/tests/' . $file, __DIR__ . '/output');
+            $builder->build(__DIR__ . '/tests/' . $file, __DIR__ . '/output/' . $file);
 
             $outputFileFinder = new Finder();
             $outputFileFinder
                 ->files()
-                ->in(__DIR__ . '/output')
+                ->in(__DIR__ . '/output/' . $file)
                 ->name('index.html');
 
             foreach ($outputFileFinder as $outputFile) {
