@@ -11,10 +11,11 @@ class Index
     private bool $important = false;
     private string $url;
 
+
     public function __construct(
-        string $chapter,
-        string $entry,
-        string $url,
+        string $chapter = '',
+        string $entry = '',
+        string $url = '',
         bool $important = false
     ) {
         $this->chapter   = $chapter;
@@ -41,5 +42,37 @@ class Index
     public function getUrl(): string
     {
         return $this->url;
+    }
+
+    /**
+     * @param string $chapter
+     */
+    public function setChapter(string $chapter): void
+    {
+        $this->chapter = $chapter;
+    }
+
+    /**
+     * @param string $entry
+     */
+    public function setEntry(string $entry): void
+    {
+        $this->entry = $entry;
+    }
+
+    /**
+     * @param bool $important
+     */
+    public function setImportant(bool $important): void
+    {
+        $this->important = $important;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url): void
+    {
+        $this->url = $url;
     }
 }

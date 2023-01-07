@@ -30,9 +30,8 @@ class IndexDirectiveTest extends TestCase
 
     public function testIndexDirectiveReturnsNull(): void
     {
-        $node = $this->subject->processSub(
+        $node = $this->subject->processNode(
             $this->parser,
-            null,
             '',
             'Main Index, Sub Index',
             []
@@ -42,10 +41,11 @@ class IndexDirectiveTest extends TestCase
 
     public function testIndexDirectiveProcessingAddsLinkToRepository(): void
     {
-        $this->indexRepository->expects(self::once())->method('addTextAsIndex');
-        $this->subject->processSub(
+        $this->indexRepository->expects(self::once())
+            ->method('addTextAsIndex')
+            ->with('Main Index; Sub Index');
+        $this->subject->processNode(
             $this->parser,
-            null,
             '',
             'Main Index; Sub Index',
             []

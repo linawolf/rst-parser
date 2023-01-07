@@ -6,6 +6,7 @@ namespace Doctrine\Tests\RST\BuilderIndexDirective;
 
 use Doctrine\RST\Builder;
 use Doctrine\RST\Configuration;
+use Doctrine\RST\Kernel;
 use Doctrine\Tests\RST\BaseBuilderTest;
 
 /**
@@ -22,7 +23,7 @@ class BuilderIndexDirectiveTest extends BaseBuilderTest
         $this->configuration->setUseCachedMetas(false);
         $this->configuration->silentOnError(true);
 
-        $this->builder = new Builder();
+        $this->builder = new Builder(new Kernel($this->configuration));
         $this->builder->build($this->sourceFile(), $this->targetFile());
     }
 

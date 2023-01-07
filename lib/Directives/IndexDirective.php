@@ -8,7 +8,7 @@ use Doctrine\RST\Meta\Repository\IndexRepository;
 use Doctrine\RST\Nodes\Node;
 use Doctrine\RST\Parser;
 
-class IndexDirective extends SubDirective
+class IndexDirective extends Directive
 {
     private IndexRepository $indexRepository;
 
@@ -22,17 +22,11 @@ class IndexDirective extends SubDirective
         return 'index';
     }
 
-    /** @param string[] $options */
-    public function processSub(
-        Parser $parser,
-        ?Node $document,
-        string $variable,
-        string $data,
-        array $options
-    ): ?Node {
-        $this->indexRepository->addTextAsIndex($data);
-
-        // Indexes do not get rendered within their document
+    public function processNode(Parser $parser, string $variable, string $data, array $options): ?Node
+    {
+        if ($data !== '') {
+            $this->indexRepository->addTextAsIndex($data);
+        }
         return null;
     }
 }
