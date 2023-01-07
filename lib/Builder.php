@@ -6,6 +6,7 @@ namespace Doctrine\RST;
 
 use Doctrine\RST\Builder\Copier;
 use Doctrine\RST\Builder\Documents;
+use Doctrine\RST\Builder\GeneralIndex;
 use Doctrine\RST\Builder\ParseQueue;
 use Doctrine\RST\Builder\ParseQueueProcessor;
 use Doctrine\RST\Builder\Scanner;
@@ -46,6 +47,8 @@ final class Builder
     /** @var Documents */
     private $documents;
 
+    private GeneralIndex $generalIndex;
+
     /** @var Copier */
     private $copier;
 
@@ -72,6 +75,10 @@ final class Builder
         $this->documents = new Builder\Documents(
             $this->filesystem,
             $this->metas
+        );
+        $this->generalIndex = new GeneralIndex(
+            $this->configuration,
+            $this->filesystem
         );
 
         $this->copier = new Builder\Copier($this->filesystem);
@@ -222,6 +229,7 @@ final class Builder
         );
 
         $this->documents->render($targetDirectory);
+        $this->generalIndex->render($targetDirectory);
 
         $this->copier->doMkdir($targetDirectory);
         $this->copier->doCopy($directory, $targetDirectory);

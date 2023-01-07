@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Doctrine\RST\Formats;
 
 use Doctrine\RST\Directives\Directive;
+use Doctrine\RST\Renderers\FullGeneralIndexRenderer;
 use Doctrine\RST\Renderers\NodeRendererFactory;
 
 final class InternalFormat implements Format
@@ -46,5 +47,9 @@ final class InternalFormat implements Format
         }
 
         return $this->nodeRendererFactories;
+    }
+
+    public function getGeneralIndexRenderer(): ?FullGeneralIndexRenderer {
+        return $this->format->getGeneralIndexRenderer();
     }
 }

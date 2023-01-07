@@ -1,0 +1,13 @@
+{% extends "layout.html.twig" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+    <h1>Index</h1>
+    <ul class="generalIndex">
+        {% for item in indexes.indexArray -%}
+            <li>Something</li>
+        {%- endfor %}
+    </ul>
+{% endblock %}

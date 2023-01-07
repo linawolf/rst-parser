@@ -56,6 +56,7 @@ class Kernel
             new Directives\Dummy(),
             new Directives\CodeBlock(),
             new Directives\Contents(),
+            new Directives\IndexDirective($this->configuration->getIndexRepositoryFactory()->getIndexRepository()),
             new Directives\Raw(),
             new Directives\Replace(),
             new Directives\Toctree(),

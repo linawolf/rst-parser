@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Doctrine\RST\Formats;
 
 use Doctrine\RST\Directives\Directive;
+use Doctrine\RST\Renderers\FullGeneralIndexRenderer;
 use Doctrine\RST\Renderers\NodeRendererFactory;
 
 interface Format
@@ -19,4 +20,6 @@ interface Format
 
     /** @return NodeRendererFactory[] */
     public function getNodeRendererFactories(): array;
+
+    public function getGeneralIndexRenderer(): ?FullGeneralIndexRenderer;
 }

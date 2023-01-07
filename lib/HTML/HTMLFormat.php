@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Doctrine\RST\HTML;
 
+use Doctrine\RST\Configuration;
 use Doctrine\RST\Directives\Directive;
 use Doctrine\RST\Formats\Format;
 use Doctrine\RST\HTML;
+use Doctrine\RST\HTML\Renderers\GeneralIndexRenderer;
 use Doctrine\RST\Nodes;
 use Doctrine\RST\Renderers;
 use Doctrine\RST\Renderers\CallableNodeRendererFactory;
+use Doctrine\RST\Renderers\FullGeneralIndexRenderer;
 use Doctrine\RST\Renderers\NodeRendererFactory;
 use Doctrine\RST\Templates\TemplateRenderer;
 
@@ -18,8 +21,11 @@ final class HTMLFormat implements Format
     /** @var TemplateRenderer */
     private $templateRenderer;
 
-    public function __construct(TemplateRenderer $templateRenderer)
+    private Configuration $configuration;
+
+    public function __construct(Configuration $configuration, TemplateRenderer $templateRenderer)
     {
+        $this->configuration = $configuration;
         $this->templateRenderer = $templateRenderer;
     }
 
@@ -202,5 +208,10 @@ final class HTMLFormat implements Format
                 }
             ),
         ];
+    }
+
+
+    public function getGeneralIndexRenderer(): ?FullGeneralIndexRenderer {
+        return new GeneralIndexRenderer($this->configuration, $this->templateRenderer);
     }
 }

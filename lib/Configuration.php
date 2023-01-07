@@ -10,10 +10,12 @@ use Doctrine\RST\Formats\Format;
 use Doctrine\RST\Formats\InternalFormat;
 use Doctrine\RST\HTML\HTMLFormat;
 use Doctrine\RST\LaTeX\LaTeXFormat;
+use Doctrine\RST\Meta\Repository\IndexRepositoryFactory;
 use Doctrine\RST\NodeFactory\DefaultNodeFactory;
 use Doctrine\RST\NodeFactory\NodeFactory;
 use Doctrine\RST\NodeFactory\NodeInstantiator;
 use Doctrine\RST\Nodes\NodeTypes;
+use Doctrine\RST\Renderers\FullGeneralIndexRenderer;
 use Doctrine\RST\Renderers\NodeRendererFactory;
 use Doctrine\RST\Templates\TemplateEngineAdapter;
 use Doctrine\RST\Templates\TemplateRenderer;
@@ -91,17 +93,22 @@ class Configuration
     /** @var TemplateEngineAdapter */
     private $templateEngineAdapter;
 
+    private IndexRepositoryFactory $indexRepositoryFactory;
+
+    private string $generalIndexFile = 'genindex';
+
     public function __construct()
     {
         $this->cacheDir = sys_get_temp_dir() . '/doctrine-rst-parser';
 
         $this->eventManager = new EventManager();
 
-        $this->templateEngineAdapter = new TwigAdapter($this);
-        $this->templateRenderer      = new TwigTemplateRenderer($this);
+        $this->templateEngineAdapter  = new TwigAdapter($this);
+        $this->templateRenderer       = new TwigTemplateRenderer($this);
+        $this->indexRepositoryFactory = new IndexRepositoryFactory();
 
         $this->formats = [
-            Format::HTML => new InternalFormat(new HTMLFormat($this->templateRenderer)),
+            Format::HTML => new InternalFormat(new HTMLFormat($this, $this->templateRenderer)),
             Format::LATEX => new InternalFormat(new LaTeXFormat($this->templateRenderer)),
         ];
     }
@@ -378,5 +385,31 @@ class Configuration
     private function getNodeRendererFactory(string $nodeClassName): ?NodeRendererFactory
     {
         return $this->getFormat()->getNodeRendererFactories()[$nodeClassName] ?? null;
+    }
+
+    public function getGeneralIndexRenderer(): ?FullGeneralIndexRenderer
+    {
+        return $this->getFormat()->getGeneralIndexRenderer() ?? null;
+    }
+
+    public function getIndexRepositoryFactory(): IndexRepositoryFactory
+    {
+        return $this->indexRepositoryFactory;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGeneralIndexFile(): string
+    {
+        return $this->generalIndexFile;
+    }
+
+    /**
+     * @param string $generalIndexFile
+     */
+    public function setGeneralIndexFile(string $generalIndexFile): void
+    {
+        $this->generalIndexFile = $generalIndexFile;
     }
 }

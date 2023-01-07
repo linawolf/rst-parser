@@ -6,10 +6,12 @@ namespace Doctrine\RST\LaTeX;
 
 use Doctrine\RST\Directives\Directive;
 use Doctrine\RST\Formats\Format;
+use Doctrine\RST\HTML\Renderers\GeneralIndexRenderer;
 use Doctrine\RST\LaTeX;
 use Doctrine\RST\Nodes;
 use Doctrine\RST\Renderers;
 use Doctrine\RST\Renderers\CallableNodeRendererFactory;
+use Doctrine\RST\Renderers\FullGeneralIndexRenderer;
 use Doctrine\RST\Renderers\NodeRendererFactory;
 use Doctrine\RST\Templates\TemplateRenderer;
 
@@ -158,5 +160,8 @@ final class LaTeXFormat implements Format
                 }
             ),
         ];
+    }
+    public function getGeneralIndexRenderer(): ?FullGeneralIndexRenderer {
+        return null;
     }
 }
