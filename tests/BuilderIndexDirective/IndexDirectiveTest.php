@@ -43,7 +43,7 @@ class IndexDirectiveTest extends TestCase
     {
         $this->indexRepository->expects(self::once())
             ->method('addTextAsIndex')
-            ->with('Main Index; Sub Index');
+            ->with('Main Index; Sub Index', 'example.html');
         $this->subject->processNode(
             $this->parser,
             '',

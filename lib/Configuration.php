@@ -105,7 +105,7 @@ class Configuration
 
         $this->templateEngineAdapter  = new TwigAdapter($this);
         $this->templateRenderer       = new TwigTemplateRenderer($this);
-        $this->indexRepositoryFactory = new IndexRepositoryFactory();
+        $this->indexRepositoryFactory = new IndexRepositoryFactory(new ErrorManager($this));
 
         $this->formats = [
             Format::HTML => new InternalFormat(new HTMLFormat($this, $this->templateRenderer)),
