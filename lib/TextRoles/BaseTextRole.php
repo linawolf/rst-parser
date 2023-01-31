@@ -28,6 +28,12 @@ abstract class BaseTextRole implements TextRole
         ];
     }
 
+    /** @param array<string, string> $parameters */
+    protected function renderTemplate(Environment $environment, string $template, array $parameters = []): string
+    {
+        return $environment->getConfiguration()->getTemplateRenderer()->render($template, $parameters);
+    }
+
     /** @return String[] */
     public function getAliases(): array
     {
