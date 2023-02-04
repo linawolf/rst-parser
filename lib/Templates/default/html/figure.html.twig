@@ -1,12 +1,12 @@
 {% apply spaceless %}
-<figure>
+<figure class="figure">
     {{ figureNode.image.render()|raw }}
 
     {% if figureNode.document %}
         {% set caption = figureNode.document.render()|trim %}
 
         {% if caption %}
-            <figcaption>{{ caption|raw }}</figcaption>
+            <figcaption class="figure-caption">{{ caption|raw }}</figcaption>
         {% endif %}
     {% endif %}
 </figure>
