@@ -27,9 +27,14 @@ class TwigEnvironmentFactoryTest extends TestCase
         $configuration = new Configuration();
         $configuration->setFileExtension('html');
 
+        $expected = [
+            (string) realpath(__DIR__ . '/../../lib/Templates/bootstrap5/html'),
+            (string) realpath(__DIR__ . '/../../lib/Templates/default/html'),
+        ];
+
         // no theme, no custom dirs
         self::assertLoaderPaths(
-            [(string) realpath(__DIR__ . '/../../lib/Templates/default/html')],
+            $expected,
             TwigEnvironmentFactory::createTwigEnvironment($configuration)
         );
     }

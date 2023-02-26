@@ -91,6 +91,7 @@ class FunctionalTest extends TestCase
         $configuration = new Configuration();
         $configuration->setFileExtension($format);
         $configuration->setUseCachedMetas(false);
+        $configuration->setTheme('testing');
         $builder = new Builder($configuration);
 
         $builder->build(__DIR__ . '/tests/build/' . $file, __DIR__ . '/output/build/' . $file);

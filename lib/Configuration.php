@@ -43,7 +43,7 @@ class Configuration
     /** @var string[] */
     private array $customTemplateDirs = [];
 
-    private string $theme = self::THEME_DEFAULT;
+    private string $theme = 'bootstrap5';
 
     private string $indexName = 'index';
 

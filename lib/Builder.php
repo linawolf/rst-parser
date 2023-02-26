@@ -193,6 +193,8 @@ final class Builder
 
         $this->documents->render($targetDirectory);
 
+        $this->configuration->getTheme();
+
         $this->copier->doMkdir($targetDirectory);
         $this->copier->doCopy($directory, $targetDirectory);
 

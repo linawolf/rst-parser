@@ -21,6 +21,8 @@ abstract class BaseBuilderTest extends BaseTest
         parent::setUp();
 
         shell_exec('rm -rf ' . $this->targetFile());
+
+        $this->configuration->setTheme('testing');
         $this->builder = new Builder($this->configuration);
         $this->configureBuilder($this->builder);
         // build must be executed
